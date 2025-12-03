@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkatePros - Checkout</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">SkatePros</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+        <button class="nav-menu-btn">☰ Menu</button>
+        <div id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </div>
+        <a href="cart.html" class="cart-icon">🛒 Cart <span class="cart-count">0</span></a>
+    </nav>
+
+    <section class="hero">
+        <h1>Checkout</h1>
+        <p>Complete your purchase</p>
+    </section>
+
+    <div class="checkout-container">
+        <div>
+            <h2>Shipping Information</h2>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="checkoutName">Full Name:</label>
+                    <input type="text" id="checkoutName" name="checkoutName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Street Address:</label>
+                    <input type="text" id="address" name="address" placeholder="Enter your street address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" placeholder="Enter your city" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="postal">Postal Code:</label>
+                    <input type="text" id="postal" name="postal" placeholder="Enter your postal code" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="checkoutEmail">Email Address:</label>
+                    <input type="email" id="checkoutEmail" name="checkoutEmail" placeholder="Enter your email address" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="form-btn btn-red">Confirm Order</button>
+                    <a href="cart.html" class="form-btn btn-red">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="checkout-summary">
+            <h2>Order Summary</h2>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="checkoutTableBody">
+                    <tr id="emptyCheckout">
+                        <td colspan="3">No items in cart</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="checkoutSubtotal">$0.00 JMD</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount:</span>
+                <span id="checkoutDiscount">$0.00 JMD</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax:</span>
+                <span id="checkoutTax">$0.00 JMD</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Due:</span>
+                <span id="checkoutTotal">$0.00 JMD</span>
+            </div>
+
+            <div class="note-box">
+                <p>
+                    <strong>Note:</strong> A 10% discount applies if your order exceeds $50,000 JMD. Tax is calculated at 15% on the taxable amount.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SkatePros. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:jamarnplummer@students.utech.edu.jm">jamarnplummer@students.utech.edu.jm</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

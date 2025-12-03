@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkatePros - Home</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">SkatePros</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+        <button class="nav-menu-btn">☰ Menu</button>
+        <div id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </div>
+        <a href="cart.html" class="cart-icon">🛒 Cart <span class="cart-count">0</span></a>
+    </nav>
+
+    <section class="hero">
+        <h1>Roll In Style</h1>
+        <p>Shop with us to buy premium skateboarding equipment, for all skill levels!</p>
+        <a href="products.html" class="hero-btn">Shop Now</a>
+    </section>
+
+    <div class="container">
+        <h2>Featured Products</h2>
+        <div class="content">
+            <div class="product-card" data-category="decks">
+                <div class="product-image">
+                    <img src="../Assets/deck1.webp" alt="Skate Deck Pro" class="product-img">
+                </div>
+                <div class="product-name">Skate Deck Pro</div>
+                <div class="product-price">$13,500 JMD</div>
+                <button class="add-btn" data-product-id="1" data-product-name="Skate Deck Pro" data-product-price="13500" data-product-image="../Assets/deck1.webp">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-category="wheels">
+                <div class="product-image">
+                    <img src="../Assets/wheels1.webp" alt="Wheel Set" class="product-img">
+                </div>
+                <div class="product-name">Wheel Set</div>
+                <div class="product-price">$7,500 JMD</div>
+                <button class="add-btn" data-product-id="2" data-product-name="Wheel Set" data-product-price="7500" data-product-image="../Assets/wheels1.webp">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-category="parts">
+                <div class="product-image">
+                    <img src="../Assets/tape1.webp" alt="Grip Tape" class="product-img">
+                </div>
+                <div class="product-name">Grip Tape</div>
+                <div class="product-price">$3,000 JMD</div>
+                <button class="add-btn" data-product-id="3" data-product-name="Grip Tape" data-product-price="3000" data-product-image="../Assets/tape1.webp">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SkatePros. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:jamarnplummer@students.utech.edu.jm">jamarnplummer@students.utech.edu.jm</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

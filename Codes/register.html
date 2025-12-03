@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkatePros - Register</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">SkatePros</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+        <button class="nav-menu-btn">☰ Menu</button>
+        <div id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </div>
+        <div class="cart-icon">🛒 Cart <span class="cart-count">0</span></div>
+    </nav>
+
+    <section class="hero">
+        <h1>Create Account</h1>
+        <p>Join the SkatePros community</p>
+    </section>
+
+    <div class="form-container">
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label for="regUsername">Username:</label>
+                <input type="text" id="regUsername" name="regUsername" placeholder="Choose a username">
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">Password:</label>
+                <input type="password" id="regPassword" name="regPassword" placeholder="Create a password (min 6 characters)">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password">
+            </div>
+
+            <button type="submit" class="form-btn">Register</button>
+        </form>
+
+        <p class="form-footer">
+            Already have an account? <a href="login.html">Login here</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SkatePros. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:jamarnplummer@students.utech.edu.jm">jamarnplummer@students.utech.edu.jm</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

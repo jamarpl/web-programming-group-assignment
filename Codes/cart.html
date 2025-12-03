@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkatePros - Shopping Cart</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">SkatePros</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+        <button class="nav-menu-btn">☰ Menu</button>
+        <div id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </div>
+        <div class="cart-icon">🛒 Cart <span class="cart-count">0</span></div>
+    </nav>
+
+    <section class="hero">
+        <h1>Shopping Cart</h1>
+        <p>Review your selected items</p>
+    </section>
+
+    <div class="cart-container">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cartTableBody">
+                <tr id="emptyCart">
+                    <td colspan="5">Your cart is empty. <a href="products.html">Continue shopping</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">$0.00 JMD</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount (10% if > $50,000):</span>
+                <span id="discount">$0.00 JMD</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (15%):</span>
+                <span id="tax">$0.00 JMD</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span id="total">$0.00 JMD</span>
+            </div>
+
+            <div class="button-group">
+                <a href="products.html" class="form-btn btn-red">Continue Shopping</a>
+                <a href="checkout.html" class="form-btn btn-red">Proceed to Checkout</a>
+            </div>
+            <button class="form-btn btn-gray" id="clearCartBtn">Clear Cart</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SkatePros. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:jamarnplummer@students.utech.edu.jm">jamarnplummer@students.utech.edu.jm</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
