@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkatePros - Products</title>
+    <title>SkatePros - Account Locked</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -25,26 +25,27 @@
             <li><a href="register.html">Register</a></li>
             <li><a href="cart.html">Cart</a></li>
         </div>
-        <a href="cart.html" class="cart-icon">🛒 Cart <span class="cart-count">0</span></a>
+        <div class="cart-icon">🛒 Cart <span class="cart-count">0</span></div>
     </nav>
 
     <section class="hero">
-        <h1>Our Products</h1>
-        <p>Explore our complete range of skateboard equipment</p>
+        <h1>Account Locked</h1>
+        <p>Your account has been temporarily locked due to multiple failed login attempts.</p>
     </section>
 
-    <div class="main-content">
-        <div class="sidebar">
-            <h3>Filter by Category</h3>
+    <div class="container">
+        <div class="info-box">
+            <h2>What Happened?</h2>
+            <p>You have exceeded the maximum number of login attempts (3). Your account is temporarily locked for security purposes.</p>
+
+            <h2>What Can You Do?</h2>
+            <p>Please choose one of the following options:</p>
             <ul>
-                <li data-category="all">All Products</li>
-                <li data-category="decks">Skate Decks</li>
-                <li data-category="wheels">Wheels</li>
-                <li data-category="parts">Parts & Hardware</li>
+                <li><a href="reset-password.html" id="resetPasswordLink">Reset your password</a> - Enter your TRN to reset your password</li>
+                <li><a href="register.html">Create a new account</a> - Register with a different TRN</li>
+                <li><a href="index.html">Return to home</a> - Go back to the SkatePros homepage</li>
             </ul>
         </div>
-
-        <div class="content"></div>
     </div>
 
     <footer>

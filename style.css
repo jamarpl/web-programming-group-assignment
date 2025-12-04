@@ -587,30 +587,17 @@ footer a:hover {
   }
 }
 
+.btn-gray {
+	background-color: var(--accent-gray) !important;
+	margin-top: 0.5rem;
+	width: 100%;
+	color: var(--white) !important;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-}
-
-.hidden {
-  display: none;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mt-1 {
-  margin-top: 1rem;
-}
-
-.mb-1 {
-  margin-bottom: 1rem;
-}
-
-.p-1 {
-  padding: 1rem;
 }
 
 .form-footer {
@@ -643,13 +630,6 @@ footer a:hover {
   background-color: var(--dark-red) !important;
   color: var(--white) !important;
   opacity: 0.9;
-}
-
-.btn-gray {
-  background-color: var(--accent-gray) !important;
-  margin-top: 0.5rem;
-  width: 100%;
-  color: var(--white) !important;
 }
 
 .info-box {
