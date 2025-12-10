@@ -705,20 +705,61 @@ document.addEventListener('DOMContentLoaded', function() {
     displayCheckoutSummary();
   }
 
-  const checkoutForm = document.getElementById('checkoutForm');
-  if (checkoutForm) {
-    checkoutForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const currentUser = getCurrentUser();
-      if (currentUser && currentUser.cart) {
-        currentUser.cart = {};
-        saveCurrentUser();
-        updateCartUI();
-        alert('Order confirmed! Thank you for your purchase.');
-        checkoutForm.reset();
-      }
-    });
-  }
+// -------- CHECKOUT PROCESS --------
+const checkoutForm = document.getElementById("checkoutForm");
+
+if (checkoutForm) {
+  checkoutForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const currentUser = getCurrentUser();
+    if (!currentUser || !currentUser.cart) {
+      alert("No items in cart.");
+      return;
+    }
+
+    // -------- Get shipping information from form --------
+    const shipping = {
+      name: document.getElementById("checkoutName").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      postal: document.getElementById("postal").value,
+      email: document.getElementById("checkoutEmail").value,
+    };
+
+    // -------- Prepare order items --------
+    const orderItems = Object.values(currentUser.cart).map(item => ({
+      name: item.name,
+      qty: item.quantity,
+      price: item.price,
+    }));
+
+    // -------- Totals pulled from checkout summary --------
+    const totals = {
+      subtotal: document.getElementById("checkoutSubtotal").textContent,
+      discount: document.getElementById("checkoutDiscount").textContent,
+      tax: document.getElementById("checkoutTax").textContent,
+      total: document.getElementById("checkoutTotal").textContent,
+    };
+
+    // -------- Generate Invoice --------
+    const invoiceNumber = incrementInvoiceCount();
+    const invoiceHTML = generateInvoiceHTML(orderItems, shipping, invoiceNumber, totals);
+
+    const invoiceWindow = window.open("", "_blank");
+    invoiceWindow.document.open();
+    invoiceWindow.document.write(invoiceHTML);
+    invoiceWindow.document.close();
+
+    // -------- Clear cart --------
+    currentUser.cart = {};
+    saveCurrentUser();
+    updateCartUI();
+
+    alert("Order confirmed! Your invoice has been generated.");
+    checkoutForm.reset();
+  });
+}
 
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
@@ -864,3 +905,75 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+
+// Invoice count
+function getInvoiceCount() {
+  return parseInt(localStorage.getItem('invoiceCount') || "0");
+}
+
+function incrementInvoiceCount() {
+  let count = getInvoiceCount() + 1;
+  localStorage.setItem('invoiceCount', count);
+  return count;
+}
+
+// GENERATE INVOICE  
+function generateInvoiceHTML(orderItems, shipping, invoiceNumber, totals) {
+  return `
+    <html>
+    <head>
+      <title>Invoice #${invoiceNumber}</title>
+      <link rel="stylesheet" href="../style.css">
+    </head>
+    <body>
+      <div class="invoice">
+      <h1>Invoice #${invoiceNumber}</h1>
+      <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+
+      <h2>Shipping Information</h2>
+      <p>
+        ${shipping.name}<br>
+        ${shipping.address}, ${shipping.city}<br>
+        ${shipping.postal}<br>
+        ${shipping.email}
+      </p>
+
+      <h2>Order Items</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price (JMD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${orderItems
+            .map(
+              item => `
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.qty}</td>
+              <td>${item.price}</td>
+            </tr>
+          `
+            )
+            .join("")}
+        </tbody>
+      </table>
+      </div>
+
+      <div class="invoice-summary">
+        <p><strong>Subtotal:</strong> ${totals.subtotal}</p>
+        <p><strong>Discount:</strong> ${totals.discount}</p>
+        <p><strong>Tax:</strong> ${totals.tax}</p>
+        <p><strong>Total Due:</strong> ${totals.total}</p>
+      </div>
+
+      <button class=inv_btn onclick="window.print()">Print Invoice</button>
+
+    </body>
+    </html>
+  `;
+}
