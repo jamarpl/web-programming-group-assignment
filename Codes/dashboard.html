@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkatePros - Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+   <nav>
+        <div class="logo">SkatePros</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+        <button class="nav-menu-btn">☰ Menu</button>
+        <div id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </div>
+        <a href="cart.html" class="cart-icon">🛒 Cart <span class="cart-count">0</span></a>
+    </nav>
+
+    <section class="hero">
+        <h1>Admin Dashboard</h1>
+        <p>View user stats and invoices</p>
+    </section>
+
+    <main style="padding: 2rem 1rem; max-width: 1000px; margin: 0 auto;">
+        <!-- 6(a) USER FREQUENCY -->
+    <section style="margin-bottom: 2rem;">
+        <h2>User Frequency</h2>
+        <p><strong>By Gender (numbers):</strong></p>
+        <p>Male: <span id="maleCount">0</span></p>
+        <p>Female: <span id="femaleCount">0</span></p>
+        <p>Other: <span id="otherCount">0</span></p>
+
+        <!-- Gender bar chart -->
+        <div id="genderChart" class="bar-chart"></div>
+
+        <p style="margin-top: 1rem;"><strong>By Age Group (numbers):</strong></p>
+        <p>18–25: <span id="age18_25Count">0</span></p>
+        <p>26–35: <span id="age26_35Count">0</span></p>
+        <p>36–50: <span id="age36_50Count">0</span></p>
+        <p>50+: <span id="age50PlusCount">0</span></p>
+
+        <!-- Age-group bar chart -->
+        <div id="ageChart" class="bar-chart"></div>
+    </section>
+
+
+        <!-- 6(b) SHOWINVOICES -->
+        <section style="margin-bottom: 2rem;">
+            <h2>Invoices – ShowInvoices()</h2>
+
+            <!-- Button to show ALL invoices -->
+            <button id="btnShowAllInvoices">Show All Invoices</button>
+
+            <!-- Search by TRN -->
+            <div style="margin-top: 1rem;">
+                <label for="invoiceSearchTrn"><strong>Search by TRN:</strong></label><br>
+                <input type="text" id="invoiceSearchTrn" placeholder="123-456-789">
+                <button id="btnSearchInvoice">Search</button>
+            </div>
+
+            <!-- Simple table for results (ShowInvoices fills this tbody) -->
+            <table border="1" cellpadding="6" cellspacing="0" style="width: 100%; margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>TRN</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="allInvoicesTableBody">
+                    <tr><td colspan="4" style="text-align:center;">No invoices loaded yet.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SkatePros. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Show gender + age frequencies
+            if (typeof ShowUserFrequency === "function") {
+                ShowUserFrequency();
+            }
+
+            // Show ALL invoices (AllInvoices)
+            const btnAll = document.getElementById("btnShowAllInvoices");
+            if (btnAll) {
+                btnAll.addEventListener("click", function () {
+                    ShowInvoices(); // no TRN = show everything
+                });
+            }
+
+            // Search invoices by TRN (AllInvoices)
+            const btnSearch = document.getElementById("btnSearchInvoice");
+            if (btnSearch) {
+                btnSearch.addEventListener("click", function () {
+                    const trn = document.getElementById("invoiceSearchTrn").value;
+                    ShowInvoices(trn);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
