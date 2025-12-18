@@ -13,6 +13,13 @@ function initializeRegistrationData() {
   }
 }
 
+// Initialize AllInvoices in localStorage 
+function initializeAllInvoices() {
+  if (!localStorage.getItem('AllInvoices')) {
+    localStorage.setItem('AllInvoices', JSON.stringify([]));
+  }
+}
+
 // User Management Functions
 function getUserByTRN(trn) {
   const registrationData = JSON.parse(localStorage.getItem('RegistrationData')) || [];
@@ -32,6 +39,121 @@ function calculateAge(dob) {
     age--;
   }
   return age;
+}
+
+// Helper to draw a simple bar chart using <img width="">
+function renderBarChart(containerId, dataObj) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = ""; // clear any previous bars
+
+  const values = Object.values(dataObj);
+  const maxVal = Math.max(...values, 1);  // avoid divide-by-zero
+  const maxBarWidth = 250;                // max width in pixels
+
+  Object.entries(dataObj).forEach(([label, count]) => {
+    const row = document.createElement("div");
+    row.className = "bar-row";
+
+    const labelSpan = document.createElement("span");
+    labelSpan.className = "bar-label";
+    labelSpan.textContent = `${label} (${count})`;
+
+    const barImg = document.createElement("img");
+    // make sure hintbar.jpg is in the same folder as dashboard.html (or change this path)
+    barImg.src = "../Assets/hintbar.jpg";
+    barImg.alt = `${label} bar`;
+
+    // Scale width based on frequency
+    const width = (count / maxVal) * maxBarWidth;
+    barImg.width = Math.max(width, 5); // tiny bar even if count is 0
+
+    row.appendChild(labelSpan);
+    row.appendChild(barImg);
+    container.appendChild(row);
+  });
+}
+
+// ShowUserFrequency() G.G
+// Shows user frequency based on Gender and Age Group
+function ShowUserFrequency() {
+  const registrationData = JSON.parse(
+    localStorage.getItem("RegistrationData")
+  ) || [];
+
+  // Gender counters
+  const genderCounts = {
+    Male: 0,
+    Female: 0,
+    Other: 0,
+  };
+
+  // Age group counters
+  const ageGroupCounts = {
+    "18-25": 0,
+    "26-35": 0,
+    "36-50": 0,
+    "50+": 0,
+  };
+
+  registrationData.forEach((user) => {
+    // ----- GENDER -----
+    let gender = user.gender; // raw value from form
+
+    // if empty or unexpected, treat as Other
+    if (!gender || !Object.prototype.hasOwnProperty.call(genderCounts, gender)) {
+      gender = "Other";
+    }
+    genderCounts[gender]++;
+
+    // ----- AGE GROUPS -----
+    if (user.dob) {
+      const age = calculateAge(user.dob);
+
+      if (age >= 18 && age <= 25) {
+        ageGroupCounts["18-25"]++;
+      } else if (age >= 26 && age <= 35) {
+        ageGroupCounts["26-35"]++;
+      } else if (age >= 36 && age <= 50) {
+        ageGroupCounts["36-50"]++;
+      } else if (age > 50) {
+        ageGroupCounts["50+"]++;
+      }
+    }
+  });
+
+  // Show in console 
+  console.log("Gender Frequency:", genderCounts);
+  console.log("Age Group Frequency:", ageGroupCounts);
+
+  // Update dashboard number elements
+  const maleEl = document.getElementById("maleCount");
+  if (maleEl) maleEl.textContent = genderCounts.Male;
+
+  const femaleEl = document.getElementById("femaleCount");
+  if (femaleEl) femaleEl.textContent = genderCounts.Female;
+
+  const otherEl = document.getElementById("otherCount");
+  if (otherEl) otherEl.textContent = genderCounts.Other;
+
+  const a18_25El = document.getElementById("age18_25Count");
+  if (a18_25El) a18_25El.textContent = ageGroupCounts["18-25"];
+
+  const a26_35El = document.getElementById("age26_35Count");
+  if (a26_35El) a26_35El.textContent = ageGroupCounts["26-35"];
+
+  const a36_50El = document.getElementById("age36_50Count");
+  if (a36_50El) a36_50El.textContent = ageGroupCounts["36-50"];
+
+  const a50PlusEl = document.getElementById("age50PlusCount");
+  if (a50PlusEl) a50PlusEl.textContent = ageGroupCounts["50+"];
+
+  //draw the two bar charts using <img width=""> ---
+  renderBarChart("genderChart", genderCounts);  // chart 1 – gender
+  renderBarChart("ageChart", ageGroupCounts);   // chart 2 – age group
+
+  return { genderCounts, ageGroupCounts };
 }
 
 function validateTRNFormat(trn) {
@@ -655,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize authentication and products data
   initializeRegistrationData();
   initializeAllProducts();
-
+  initializeAllInvoices();//G.G
   // Update cart UI with current user's cart
   updateCartUI();
 
@@ -706,6 +828,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 // -------- CHECKOUT PROCESS --------
+// -------- CHECKOUT PROCESS --------
 const checkoutForm = document.getElementById("checkoutForm");
 
 if (checkoutForm) {
@@ -742,8 +865,42 @@ if (checkoutForm) {
       total: document.getElementById("checkoutTotal").textContent,
     };
 
-    // -------- Generate Invoice --------
+    // -------- Generate Invoice Number --------
     const invoiceNumber = incrementInvoiceCount();
+
+    // Build invoice object and save it G.G
+    const invoice = {
+      invoiceNumber: invoiceNumber,
+      trn: currentUser.trn,
+      date: new Date().toLocaleString(),
+      items: orderItems,
+      totals: totals
+    };
+
+    // Save to AllInvoices
+    const allInvoices = JSON.parse(localStorage.getItem("AllInvoices")) || [];
+    allInvoices.push(invoice);
+    localStorage.setItem("AllInvoices", JSON.stringify(allInvoices));
+
+    // Save to this user's invoices[] in RegistrationData
+    const registrationData = JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    const userIndex = registrationData.findIndex(u => u.trn === currentUser.trn);
+    if (userIndex !== -1) {
+      if (!Array.isArray(registrationData[userIndex].invoices)) {
+        registrationData[userIndex].invoices = [];
+      }
+      registrationData[userIndex].invoices.push(invoice);
+      localStorage.setItem("RegistrationData", JSON.stringify(registrationData));
+    }
+
+    // Keep currentUser in sync (optional but nice)
+    if (!Array.isArray(currentUser.invoices)) {
+      currentUser.invoices = [];
+    }
+    currentUser.invoices.push(invoice);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    // -------- Generate Invoice HTML (same as before) --------
     const invoiceHTML = generateInvoiceHTML(orderItems, shipping, invoiceNumber, totals);
 
     const invoiceWindow = window.open("", "_blank");
@@ -756,10 +913,12 @@ if (checkoutForm) {
     saveCurrentUser();
     updateCartUI();
 
+    
     alert("Order confirmed! Your invoice has been generated.");
     checkoutForm.reset();
   });
 }
+
 
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
@@ -976,4 +1135,105 @@ function generateInvoiceHTML(orderItems, shipping, invoiceNumber, totals) {
     </body>
     </html>
   `;
+}
+
+// Displays all invoices and allows searching by TRN using console.log() G.G
+function ShowInvoices(searchTrn) {
+  const allInvoices = JSON.parse(localStorage.getItem('AllInvoices')) || [];
+
+  // If a TRN is provided, filter by TRN, else show all
+  let results = allInvoices;
+
+  if (searchTrn && searchTrn.trim() !== "") {
+    results = allInvoices.filter(inv => inv.trn === searchTrn.trim());
+    console.log(`Invoices matching TRN ${searchTrn}:`, results);
+  } else {
+    console.log("All invoices:", allInvoices);
+  }
+
+  // display in a table on dashboard.html if it exists
+  const tableBody = document.getElementById("allInvoicesTableBody");
+  if (tableBody) {
+    tableBody.innerHTML = "";
+
+    if (results.length === 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="4">No invoices found.</td>`;
+      tableBody.appendChild(row);
+      return results;
+    }
+
+    results.forEach((inv, index) => {
+      const row = document.createElement("tr");
+
+      const invNum = inv.invoiceNumber || (index + 1);
+      const trn = inv.trn || "N/A";
+      const date = inv.date || "";
+      const total =
+        (inv.total) ||
+        (inv.totals && inv.totals.total) ||
+        "";
+
+      row.innerHTML = `
+        <td>${invNum}</td>
+        <td>${trn}</td>
+        <td>${date}</td>
+        <td>${total}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  return results;
+}
+
+// GetUserInvoices() G.G
+// Displays all invoices for ONE user based on TRN from RegistrationData 
+function GetUserInvoices(trn) {
+  if (!trn || trn.trim() === "") {
+    console.log("Please provide a TRN to GetUserInvoices().");
+    return [];
+  }
+
+  const registrationData = JSON.parse(localStorage.getItem('RegistrationData')) || [];
+  const user = registrationData.find(u => u.trn === trn.trim());
+
+  if (!user) {
+    console.log(`No user found with TRN ${trn}.`);
+    return [];
+  }
+
+  const userInvoices = Array.isArray(user.invoices) ? user.invoices : [];
+
+  console.log(`Invoices for TRN ${trn}:`, userInvoices);
+
+  // show on dashboard if container exists
+  const outputDiv = document.getElementById("userInvoicesOutput");
+  if (outputDiv) {
+    if (userInvoices.length === 0) {
+      outputDiv.innerHTML = `<p>No invoices found for this user.</p>`;
+      return userInvoices;
+    }
+
+    outputDiv.innerHTML = userInvoices
+      .map((inv, index) => {
+        const invNum = inv.invoiceNumber || (index + 1);
+        const date = inv.date || "";
+        const total =
+          (inv.total) ||
+          (inv.totals && inv.totals.total) ||
+          "";
+
+        return `
+          <div class="invoice-card">
+            <p><strong>Invoice #${invNum}</strong></p>
+            <p>Date: ${date}</p>
+            <p>Total: ${total}</p>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  return userInvoices;
 }

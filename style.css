@@ -690,3 +690,24 @@ footer a:hover {
   cursor: pointer;
 }
 
+/* --- User Frequency Bar Charts --- */
+.bar-chart {
+  margin-top: 1rem;
+  max-width: 500px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.bar-label {
+  width: 90px;
+  font-size: 0.9rem;
+}
+
+.bar-row img {
+  height: 20px;      /* Small image stretched horizontally */
+}
